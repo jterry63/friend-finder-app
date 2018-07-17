@@ -6,9 +6,9 @@
     <title>Friend Finder</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
         crossorigin="anonymous">
-
+    <script src="https://code.jquery.com/jquery.js"></script>
 </head>
 
 <body>
@@ -22,9 +22,70 @@
             <h2 class="text-center"></h2>
             <br>
 
+            <div>
+                <a href="/survey">
+                    <button type="button" class="btn btn-lg btn-primary" style="background-color: #55a1cd; display: block; margin-left: auto; margin-right: auto;">
+                        <h4>
+                            <span class="glyphicon glyphicon-list-alt"></span> Start Survey</h4>
+                    </button>
+                </a>
+                <br>
+                <button type="button" class="btn btn-lg btn-primary" style="background-color: #55a1cd; display: block; margin-left: auto; margin-right: auto;"
+                    id="random">
+                    <h4>
+                        <span class="glyphicon glyphicon-list-alt"></span> Random Friend Generator</h4>
+                </button>
+                </a>
+            </div>
+
+        </div>
+
+        <div id="friendsDiv">
+        </div>
+        <nav class="navbar fixed-bottom" style="background-color: white;">
+            <a class="navbar-brand" href="/api/friends">Friends API </a>
 
 
+        </nav>
+
+    </div>
 
 </body>
+
+
+<script type="text/javascript">
+
+
+
+    $("#random").on("click", function (event) {
+        event.preventDefault();
+        var randomNumber = [Math.floor(Math.random() * 10) + 1];
+        var settings = {
+            "async": true,
+            "crossDomain": true,
+            "url": "http://localhost:3000/api/friends",
+            "method": "GET",
+            "headers": {
+                "cache-control": "no-cache",
+                "postman-token": "22c60936-0016-a8a7-67c5-b2120e4187fd"
+            }
+        }
+
+
+        $.ajax(settings).done(function (response) {
+            var randomPerson = response[Math.floor(Math.random() * 9) + 1];
+            console.log(randomPerson);
+            // console.log(response[Math.floor(Math.random() * 9) + 1].photo);
+            // $(".container").append(response[Math.floor(Math.random() * 9) + 1].photo);
+            // '<img id="theImg" src="\response[Math.floor(Math.random() * 9) + 1].photo\" />'
+            // $(".container").append(`<img id="theImg" src="${response[Math.floor(Math.random() * 9) + 1].photo}" style="height: 40%; width: 40%;"/>`);
+            $("#friendsDiv").prepend(`<div class="card" style="align-self: center; margin-bottom: 20px; background-color: #eaecef;" id="theCard">
+                    <div class="card-body" style"align-self: center;"><h5 class="card-title" id="peopleName" style="text-align: center; font-size: 30px; background-color: #eaecef;">${randomPerson.name}</h5></div></div>
+        <img class="card-img-top" src="${randomPerson.photo}" id="peopleImage" style ="height: 50%; width: 50%; display: block; margin-left: auto; margin-right: auto;"><hr></hr>`);
+
+        });
+    })
+
+</script>
 
 </html>
